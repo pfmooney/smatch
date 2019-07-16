@@ -2049,7 +2049,7 @@ static void handle_MOD_condition(struct expression *expr)
 	struct range_list *true_rl;
 	struct range_list *false_rl = NULL;
 	sval_t right;
-	sval_t zero;
+	sval_t zero = { 0, };
 
 	if (!get_implied_value(expr->right, &right) || right.value == 0)
 		return;

@@ -23,18 +23,9 @@
 #include "smatch.h"
 #include "smatch_extra.h"
 
-static sval_t err_ptr_min = {
-	.type = &ptr_ctype,
-	.value = -4095,
-};
-static sval_t err_ptr_max = {
-	.type = &ptr_ctype,
-	.value = -1,
-};
-static sval_t null_ptr = {
-	.type = &ptr_ctype,
-	.value = 0,
-};
+static sval_t err_ptr_min;
+static sval_t err_ptr_max;
+static sval_t null_ptr;
 
 static int implied_err_cast_return(struct expression *call, void *unused, struct range_list **rl)
 {
@@ -430,6 +421,13 @@ void check_kernel(int id)
 {
 	if (option_project != PROJ_KERNEL)
 		return;
+
+	err_ptr_min.type = &ptr_ctype;
+	err_ptr_min.value = -4095;
+	err_ptr_max.type = &ptr_ctype;
+	err_ptr_max.value = -1l;
+	null_ptr.type = &ptr_ctype;
+	null_ptr.value = 0;
 
 	err_ptr_min = sval_cast(&ptr_ctype, err_ptr_min);
 	err_ptr_max = sval_cast(&ptr_ctype, err_ptr_max);

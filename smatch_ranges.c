@@ -1850,8 +1850,11 @@ static sval_t sval_lowest_set_bit(sval_t sval)
 static struct range_list *handle_AND_rl_sval(struct range_list *rl, sval_t sval)
 {
 	struct range_list *known_rl;
-	sval_t zero = { .type = sval.type, .value = 0 };
+	sval_t zero = { 0 };
 	sval_t min;
+
+	zero.type = sval.type;
+	zero.value = 0;
 
 	if (sm_fls64(rl_max(rl).uvalue) < find_first_zero_bit(sval.uvalue) &&
 	    sm_fls64(rl_min(rl).uvalue) < find_first_zero_bit(sval.uvalue))
