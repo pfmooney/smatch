@@ -396,7 +396,7 @@ static int going_too_slow(void)
 		return 1;
 	}
 
-	if (time_parsing_function() < option_timeout) {
+	if (!option_timeout || time_parsing_function() < option_timeout) {
 		implications_off = false;
 		return 0;
 	}
@@ -610,7 +610,7 @@ static void separate_and_filter(struct sm_state *sm, int comparison, struct rang
 
 	gettimeofday(&time_after, NULL);
 	sec = time_after.tv_sec - time_before.tv_sec;
-	if (sec > option_timeout) {
+	if (option_timeout && sec > option_timeout) {
 		sm_perror("Function too hairy.  Ignoring implications after %d seconds.", sec);
 	}
 }
